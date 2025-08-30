@@ -432,11 +432,19 @@ document.addEventListener('DOMContentLoaded', () => {
     function getNodeViewTemplate(nodeName) {
         const node = nodes[nodeName];
         const singularName = nodeName.endsWith('s') ? nodeName.slice(0, -1) : nodeName;
+        const headerHtml = `
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                <h2 class="text-3xl font-bold text-slate-800">${nodeName}</h2>
+                <button id="add-node-item-btn" data-node="${nodeName}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg flex items-center w-full sm:w-auto">
+                    <i data-feather="plus" class="w-5 h-5 mr-2"></i>Add ${singularName}
+                </button>
+            </div>`;
+
         if (node.view === 'table') {
-            return `<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 md:hidden"><h2 class="text-3xl font-bold text-slate-800">${nodeName}</h2></div><div class="bg-white p-0 sm:p-6 rounded-lg shadow-md"><div class="p-4 sm:p-0 mb-4"><input type="text" id="search-node-items" data-node="${nodeName}" placeholder="Search ${nodeName.toLowerCase()}..." class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></div><div class="overflow-x-auto"></div></div>`;
+            return `${headerHtml}<div class="bg-white p-4 sm:p-6 rounded-lg shadow-md"><div class="mb-4"><input type="text" id="search-node-items" data-node="${nodeName}" placeholder="Search ${nodeName.toLowerCase()}..." class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"></div><div class="overflow-x-auto"></div></div>`;
         }
         if (node.view === 'kanban') {
-            return `<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 md:hidden"><h2 class="text-3xl font-bold text-slate-800">${nodeName}</h2></div><div id="kanban-board" class="flex flex-col md:flex-row gap-6 overflow-x-auto pb-4"></div>`;
+            return `${headerHtml}<div id="kanban-board" class="flex flex-col md:flex-row gap-6 overflow-x-auto pb-4"></div>`;
         }
         return '';
     };
@@ -770,3 +778,4 @@ document.addEventListener('DOMContentLoaded', () => {
     renderNavigation();
     renderView('dashboard');
 });
+
